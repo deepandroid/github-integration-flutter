@@ -35,7 +35,7 @@ class _ListViewJsonApiState extends State<ListViewJsonApi> {
     });
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fetching data from GitHub'),
+        title: Text('Fetching Commit from GitHub'),
       ),
       body: FutureBuilder<List<Commits>>(
         future: _list,
