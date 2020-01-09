@@ -11,7 +11,7 @@ class ListViewJsonApi extends StatefulWidget {
 class _ListViewJsonApiState extends State<ListViewJsonApi> {
   final String uri =
       'http://api.github.com/repos/deepandroid/github-integration-flutter/commits';
-
+  Future<List<Commits>> _list;
   Future<List<Commits>> _fetchUsers() async {
     var response = await http.get(uri);
 
@@ -30,12 +30,15 @@ class _ListViewJsonApiState extends State<ListViewJsonApi> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _list = _fetchUsers();
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text('Fetching data from GitHub'),
       ),
       body: FutureBuilder<List<Commits>>(
-        future: _fetchUsers(),
+        future: _list,
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(child: CircularProgressIndicator());
@@ -57,8 +60,20 @@ class _ListViewJsonApiState extends State<ListViewJsonApi> {
                               commits.commit.author.name,
                               style: TextStyle(fontSize: 16),
                             ),
-                            Text(commits.commit.message),
-                            Text(commits.commit.author.date.replaceAll("T"," ").replaceAll("Z", "")),
+                            Divider(
+                              height: 5,
+                              color: Colors.white,
+                            ),
+                            Text(
+                                commits.commit.message
+                            ),
+                            Divider(
+                              height: 5,
+                              color: Colors.white,
+                            ),
+                            Text(
+                                commits.commit.author.date.replaceAll("T"," ").replaceAll("Z", "")
+                            ),
                           ],
                         ),
                       )
@@ -73,7 +88,10 @@ class _ListViewJsonApiState extends State<ListViewJsonApi> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await _fetchUsers();
+          setState(() {
+            _list = _fetchUsers();
+            print(_list);
+          });
         },
         tooltip: 'Github API calling',
         child: Icon(Icons.cached),
