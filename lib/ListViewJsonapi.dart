@@ -11,6 +11,9 @@ class ListViewJsonApi extends StatefulWidget {
 class _ListViewJsonApiState extends State<ListViewJsonApi> {
   final String uri =
       'http://api.github.com/repos/deepandroid/github-integration-flutter/commits';
+                          // GitHub Username : deepandroid
+                          // GitHub Repo(Public)  : github-integration-flutter
+
   Future<List<Commits>> _list;
   Future<List<Commits>> _fetchUsers() async {
     var response = await http.get(uri);
@@ -35,7 +38,7 @@ class _ListViewJsonApiState extends State<ListViewJsonApi> {
     });
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fetching Commit from GitHub'),
+        title: Text('Fetching Commits from GitHub'),
       ),
       body: FutureBuilder<List<Commits>>(
         future: _list,
@@ -53,7 +56,6 @@ class _ListViewJsonApiState extends State<ListViewJsonApi> {
                     children: <Widget>[
                       Expanded(
                         child: Column(
-                          // align the text to the left instead of centered
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
@@ -144,6 +146,6 @@ class Author {
     return Author(
       name: json['name'],
       date: json['date'],
-    );
+    ); // Author
   }
 }
